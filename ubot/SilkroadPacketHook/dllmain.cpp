@@ -214,9 +214,9 @@ __declspec(naked) void SendPacketHook(void)
 	}
 
 	packet = (char*)outPacketAddr;
-	//printf("OUT Packet %x\n", *packet);
 
-	//printPacket();
+	printf("OUT Packet %x\n", *packet);
+	printPacket();
 	PacketHook();
 	__asm
 	{
