@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SilkroadPacketHook", "SilkroadPacketHook\SilkroadPacketHook.vcxproj", "{950496C1-FA35-444F-A954-EAA0F844B19C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uBot", "uBot\uBot.csproj", "{512002A0-624A-44A0-9430-B7AF4557879F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotEngine", "BotEngine\BotEngine.csproj", "{543B50E1-31C0-4647-A54A-FB8181DE5566}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Debug|Any CPU.Build.0 = Debug|x64
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Debug|x64.ActiveCfg = Debug|x64
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Debug|x64.Build.0 = Debug|x64
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Debug|x86.ActiveCfg = Debug|Win32
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Debug|x86.Build.0 = Debug|Win32
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Release|Any CPU.ActiveCfg = Release|x64
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Release|Any CPU.Build.0 = Release|x64
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Release|x64.ActiveCfg = Release|x64
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Release|x64.Build.0 = Release|x64
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Release|x86.ActiveCfg = Release|Win32
+		{950496C1-FA35-444F-A954-EAA0F844B19C}.Release|x86.Build.0 = Release|Win32
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Debug|x64.Build.0 = Debug|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Debug|x86.Build.0 = Debug|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Release|x64.ActiveCfg = Release|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Release|x64.Build.0 = Release|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Release|x86.ActiveCfg = Release|Any CPU
+		{512002A0-624A-44A0-9430-B7AF4557879F}.Release|x86.Build.0 = Release|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Debug|x64.Build.0 = Debug|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Debug|x86.Build.0 = Debug|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Release|Any CPU.Build.0 = Release|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Release|x64.ActiveCfg = Release|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Release|x64.Build.0 = Release|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Release|x86.ActiveCfg = Release|Any CPU
+		{543B50E1-31C0-4647-A54A-FB8181DE5566}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5BA3A078-1999-4F10-B774-7FDC1ED2AE24}
+	EndGlobalSection
+EndGlobal

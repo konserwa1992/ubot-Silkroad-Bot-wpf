@@ -1,0 +1,14 @@
+﻿<Window x:Class="uBot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:uBot"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox x:Name="Textbox1" HorizontalAlignment="Left" Height="29" Margin="151,117,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="484"/>
+        <Button x:Name="Button1" Content="Button" HorizontalAlignment="Left" Height="22" Margin="151,217,0,0" VerticalAlignment="Top" Width="300" Click="Button1_Click"/>
+
+    </Grid>
+</Window>
