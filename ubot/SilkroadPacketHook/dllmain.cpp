@@ -87,10 +87,12 @@ VOID WriteBytesASM(DWORD destAddress, LPVOID patch, DWORD numBytes)
 
 
 DWORD ReturnAddr;
+DWORD ReciveReturnAddr;
 DWORD* outPacketAddr;
+DWORD* inPacketAddr;
 char* packet;
 int psize;
-
+int insize;
 char exitData[255];
 
 
@@ -109,11 +111,10 @@ void printPacket()
 {
 	printf("-----------------------------------------------------------------\n");
 	printf("Original packet :\n");
-	for (int i = 0; i < psize; i++)
+	for (int i = 0; i < insize; i++)
 	{
 		printf("%hhx ", packet[i]);
 	}
-	PacketHook();
 	printf("\n\n");
 }
 template <typename T>
@@ -123,13 +124,13 @@ void putValue2memory(void* dest, T* value)
 }
 void PacketHook()
 {
-	if (PacketToSend.size()>0 && packet[3] == 0x70 && packet[2] == 0x4f)
+	if (PacketToSend.size() > 0 && packet[3] == 0x70 && packet[2] == 0x4f)
 	{
 		printf("################################################################\n");
 		printf("Change packet to:\n");
 		Packet pakiet = PacketToSend.back();
 
-		putValue2memory<short>(packet,&pakiet.DataSize);  //Put Size of PacketData
+		putValue2memory<short>(packet, &pakiet.DataSize);  //Put Size of PacketData
 		packet[2] = pakiet.OpCode[1];
 		packet[3] = pakiet.OpCode[0];
 
@@ -137,7 +138,7 @@ void PacketHook()
 
 		// 6 bo size(short) + opCode(short) + randomData(short)
 		// psize to ca³y rozmiar pakietu a nie poszczególnych jego elementów
-		psize = 6+ pakiet.DataSize;
+		psize = 6 + pakiet.DataSize;
 		PacketToSend.pop_back();
 
 		for (int i = 0; i < psize; i++)
@@ -165,7 +166,42 @@ void SendPacket(Packet packet)
 
 
 
-__declspec(naked) void CC_MonsterAdress(void)
+__declspec(naked) void RecivePacketHook(void)
+{
+	__asm
+	{
+		pop ReciveReturnAddr
+
+		MOV inPacketAddr, ESI
+		mov insize, EBX
+		PUSHAD
+		PUSHFD
+	}
+
+	if (insize == 0)
+	{
+		packet = (char*)inPacketAddr;
+		sscanf(&packet[0], "%c", &insize);
+		printf("IN Packet OpCode 0x%hhx%hhx Size:%hhx %d\n", packet[3], packet[2], packet[0], insize);
+		insize += 2+2+2; //we add 2 because there is 2 byte values with are 0x00 0x00 i dont know why + 1 short of size + 1 short of OPcode
+		printPacket();
+		
+	}
+
+	__asm
+	{
+		POPFD
+		POPAD
+
+		mov eax, [esi + ecx * 0x4 - 0x04]
+		mov[edi + ecx * 0x4 - 0x04], eax
+
+		push ReciveReturnAddr
+		ret
+	}
+}
+
+__declspec(naked) void SendPacketHook(void)
 {
 	__asm
 	{
@@ -178,10 +214,10 @@ __declspec(naked) void CC_MonsterAdress(void)
 	}
 
 	packet = (char*)outPacketAddr;
-	printf("Packet OpCode 0x%x%x \n", packet[3], packet[2]);
+	//printf("OUT Packet %x\n", *packet);
 
-	printPacket();
-
+	//printPacket();
+	PacketHook();
 	__asm
 	{
 		POPFD
@@ -196,6 +232,7 @@ __declspec(naked) void CC_MonsterAdress(void)
 		ret
 	}
 }
+
 
 
 
@@ -218,7 +255,9 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		freopen("CONOUT$", "w", stdout);
 		freopen("CONOUT$", "w", stderr);
 
-		Codecave(0x004BF9FF, CC_MonsterAdress, 0);
+		Codecave(0x004BF9FF, SendPacketHook, 0);
+		Codecave(0x00B43D68, RecivePacketHook, 3);
+
 		SetupSocket();
 
 		DisableThreadLibraryCalls(hModule);
@@ -230,11 +269,11 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		}
 
 
-		
-	
+
+
 		while (true)
 		{
-				RecivedPacket packet = recive();
+			RecivedPacket packet = recive();
 		}
 
 		break;
