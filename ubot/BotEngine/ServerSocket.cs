@@ -56,21 +56,28 @@ namespace BotEngine
         {
             while (true)
             {
-                byte[] data = new byte[1024];
+                byte[] data = new byte[65535];
                 int bytesReceived = stream.Read(data, 0, data.Length);
 
                 if (bytesReceived != 0)
                 {
-                    string msg = ASCIIEncoding.ASCII.GetString(data, 0, bytesReceived);
-                    if(msg.Contains("bro"))
-                    {
-                        continue;
-                    }
-                    break;
-                }
+                    string msg = "";// ASCIIEncoding.ASCII.GetString(data, 0, bytesReceived);
 
-                string message = Encoding.ASCII.GetString(data, 0, bytesReceived);
-                Console.WriteLine("Received: " + message);
+
+                    StreamWriter streamWriter = new StreamWriter("packetList.log", true);
+                    PacketRecorder.Add(data.Take(bytesReceived).ToArray());
+                    streamWriter.WriteLine("-------------------------------------------------------------------------");
+                    streamWriter.WriteLine(ASCIIEncoding.ASCII.GetString(data, 0, bytesReceived));
+                    for (int i=0;i<bytesReceived;i++)
+                    {
+                        msg += data[i].ToString("X2")+" ";
+                    }
+                    streamWriter.WriteLine("-------------------------------------------------------------------------");
+                    streamWriter.WriteLine(msg);
+
+                    Encoding.UTF8.GetString(data.Take(bytesReceived).ToArray());
+                    streamWriter.Close();
+                }
             }
         }
     }

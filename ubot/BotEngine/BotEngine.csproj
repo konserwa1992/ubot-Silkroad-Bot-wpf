@@ -39,6 +39,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DllInjector.cs" />
+    <Compile Include="PacketFilters.cs" />
+    <Compile Include="PacketRecorder.cs" />
     <Compile Include="Packets\Actions\Chat.cs" />
     <Compile Include="Packets\Actions\IAction.cs" />
     <Compile Include="Packets\IPacket.cs" />
@@ -46,7 +49,9 @@
     <Compile Include="ServerSocket.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

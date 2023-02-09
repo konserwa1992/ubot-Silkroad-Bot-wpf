@@ -42,24 +42,26 @@ bool SetupSocket()
 }
 
 
-int Send()
+int SendToBotClient(char* packet, unsigned short length)
 {
-
-    char sendbuf[32] = "Its me your bro";
-    int iSendResult = send(ConnectSocket, sendbuf, (int)strlen(sendbuf), 0);
-    if (iSendResult == SOCKET_ERROR)
+    printf("Packet Addr: %x Lenght: %d", packet,length);
+    if (length < 65535 && length>0)
     {
-        printf("send failed: %d\n", WSAGetLastError());
-        closesocket(ConnectSocket);
-        WSACleanup();
-        return 1;
+        int iSendResult = send(ConnectSocket, packet, length, 0);
+        if (iSendResult == SOCKET_ERROR)
+        {
+            printf("send failed: %d\n", WSAGetLastError());
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return 1;
+        }
+        printf("Bytes Sent: %ld\n", iSendResult);
     }
-
-    printf("Bytes Sent: %ld\n", iSendResult);
+    return 0;
 }
 
 
-RecivedPacket recive()
+RecivedPacket Recive()
 {
     char recvbuf[255];
 
@@ -94,11 +96,6 @@ RecivedPacket recive()
             SendPacket(sendMe);
         }
     }
-    else if (inComingPacket.size == 0)
-        printf("Connection closed\n");
-    else
-        printf("recv failed: %d\n", WSAGetLastError());
-
 
     return inComingPacket;
 }

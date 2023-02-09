@@ -72,9 +72,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>SilkroadPacketHook</TargetName>
+    <OutDir>C:\Users\Grzegorz\Documents\GitHub\ubot-Silkroad-Bot\ubot\uBot\bin\Debug\net6.0-windows</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>SilkroadPacketHook</TargetName>
+    <OutDir>C:\Users\Grzegorz\Documents\GitHub\ubot-Silkroad-Bot\ubot\uBot\bin\Debug\net6.0-windows</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>SilkroadPacketHook</TargetName>

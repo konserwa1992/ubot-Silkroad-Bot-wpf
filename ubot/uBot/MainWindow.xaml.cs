@@ -1,8 +1,11 @@
 ﻿using BotEngine;
+using BotEngine.Packets;
 using BotEngine.Packets.Actions;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using uBot.ViewModels;
 
 namespace uBot
 {
@@ -26,13 +30,23 @@ namespace uBot
         public MainWindow()
         {
             InitializeComponent();
+         //  DllInjectionResult res = DllInjector.GetInstance.Inject("sro_client", "SilkroadPacketHook.dll");
+            DataContext = new MainWindowViewModel();
+
             server = new ServerSocket();
             server.SetupServer();
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
+
+        private void OpCodeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            server.Send(new Chat(Textbox1.Text));
+            PacketFilters.Instance.FilterText = OpCodeTextBox.Text;
+            List1.ItemsSource = PacketFilters.Instance.FilteredPackets;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            List1.ItemsSource = PacketFilters.Instance.FilteredPackets;
         }
     }
 }

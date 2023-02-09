@@ -20,6 +20,6 @@ struct Packet
     BYTE* Packet;
 };
 
-
-RecivedPacket recive();
+int SendToBotClient(char* packet, unsigned short length);
+RecivedPacket Recive();
 int Send();

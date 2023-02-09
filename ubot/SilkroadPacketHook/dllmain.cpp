@@ -90,9 +90,10 @@ DWORD ReturnAddr;
 DWORD ReciveReturnAddr;
 DWORD* outPacketAddr;
 DWORD* inPacketAddr;
-char* packet;
+char* packetSend;
+char* packetRecive;
 int psize;
-int insize;
+unsigned short insize;
 char exitData[255];
 
 
@@ -107,13 +108,23 @@ void Setup(const HMODULE instance) {
 std::vector <Packet> PacketToSend;
 void PacketHook();
 
-void printPacket()
+void printRecivePacket()
 {
 	printf("-----------------------------------------------------------------\n");
 	printf("Original packet :\n");
 	for (int i = 0; i < insize; i++)
 	{
-		printf("%hhx ", packet[i]);
+		printf("%hhx ", packetRecive[i]);
+	}
+	printf("\n\n");
+}
+void printSendPacket()
+{
+	printf("-----------------------------------------------------------------\n");
+	printf("Original packet :\n");
+	for (int i = 0; i < psize; i++)
+	{
+		printf("%hhx ", packetRecive[i]);
 	}
 	printf("\n\n");
 }
@@ -124,17 +135,17 @@ void putValue2memory(void* dest, T* value)
 }
 void PacketHook()
 {
-	if (PacketToSend.size() > 0 && packet[3] == 0x70 && packet[2] == 0x4f)
+	if (PacketToSend.size() > 0 && packetSend[3] == 0x70 && packetSend[2] == 0x4f)
 	{
 		printf("################################################################\n");
 		printf("Change packet to:\n");
 		Packet pakiet = PacketToSend.back();
 
-		putValue2memory<short>(packet, &pakiet.DataSize);  //Put Size of PacketData
-		packet[2] = pakiet.OpCode[1];
-		packet[3] = pakiet.OpCode[0];
+		putValue2memory<short>(packetSend, &pakiet.DataSize);  //Put Size of PacketData
+		packetSend[2] = pakiet.OpCode[1];
+		packetSend[3] = pakiet.OpCode[0];
 
-		memcpy(&packet[6], pakiet.Packet, pakiet.DataSize);
+		memcpy(&packetSend[6], pakiet.Packet, pakiet.DataSize);
 
 		// 6 bo size(short) + opCode(short) + randomData(short)
 		// psize to ca³y rozmiar pakietu a nie poszczególnych jego elementów
@@ -143,7 +154,7 @@ void PacketHook()
 
 		for (int i = 0; i < psize; i++)
 		{
-			printf("%hhx ", packet[i]);
+			printf("%hhx ", packetSend[i]);
 		}
 	}
 
@@ -173,28 +184,29 @@ __declspec(naked) void RecivePacketHook(void)
 		pop ReciveReturnAddr
 
 		MOV inPacketAddr, ESI
-		mov insize, EBX
 		PUSHAD
 		PUSHFD
 	}
 
-	if (insize == 0)
-	{
-		packet = (char*)inPacketAddr;
-		sscanf(&packet[0], "%c", &insize);
-		printf("IN Packet OpCode 0x%hhx%hhx Size:%hhx %d\n", packet[3], packet[2], packet[0], insize);
-		insize += 2+2+2; //we add 2 because there is 2 byte values with are 0x00 0x00 i dont know why + 1 short of size + 1 short of OPcode
-		printPacket();
+
+			packetRecive = (char*)inPacketAddr;
+
+		   std::memcpy(&insize, &packetRecive[0], 2);
+		  // sscanf(&packetRecive[0], "%hu", &insize);
+		   printf("nIN Packet OpCode %02x%02x Size:%02x %d\n", packetRecive[3], packetRecive[2], packetRecive[0], insize);
+		   insize += 2 + 2 + 2; //we add 2 because there is 2 byte values with are 0x00 0x00 i dont know why + 1 short of size + 1 short of OPcode
+		   SendToBotClient(packetRecive, insize);
 		
-	}
+			//	printRecivePacket();
+
 
 	__asm
 	{
 		POPFD
 		POPAD
 
-		mov eax, [esi + ecx * 0x4 - 0x04]
-		mov[edi + ecx * 0x4 - 0x04], eax
+		mov[eax + 0x28], esi
+		mov[eax + 0x20], edx
 
 		push ReciveReturnAddr
 		ret
@@ -213,10 +225,10 @@ __declspec(naked) void SendPacketHook(void)
 		PUSHFD
 	}
 
-	packet = (char*)outPacketAddr;
+	packetSend = (char*)outPacketAddr;
 
-	printf("OUT Packet %x\n", *packet);
-	printPacket();
+	printf("OUT Packet %hhx%hhx\n", packetSend[2], packetSend[3]);
+	//printSendPacket();
 	PacketHook();
 	__asm
 	{
@@ -256,24 +268,24 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		freopen("CONOUT$", "w", stderr);
 
 		Codecave(0x004BF9FF, SendPacketHook, 0);
-		Codecave(0x00B43D68, RecivePacketHook, 3);
+		Codecave(0x004AF998, RecivePacketHook, 1);
 
 		SetupSocket();
 
-		DisableThreadLibraryCalls(hModule);
+		/*DisableThreadLibraryCalls(hModule);
 		const auto thread = CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(Setup), hModule, 0, nullptr);
 
 		if (thread)
 		{
 			CloseHandle(thread);
-		}
+		}*/
 
 
 
 
 		while (true)
 		{
-			RecivedPacket packet = recive();
+			RecivedPacket packet = Recive();
 		}
 
 		break;

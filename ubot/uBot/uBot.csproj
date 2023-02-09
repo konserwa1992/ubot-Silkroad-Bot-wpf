@@ -11,4 +11,10 @@
     <ProjectReference Include="..\BotEngine\BotEngine.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="img\61444.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

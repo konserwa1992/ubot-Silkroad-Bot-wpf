@@ -5,10 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:uBot"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" DataContext="{}">
     <Grid>
-        <TextBox x:Name="Textbox1" HorizontalAlignment="Left" Height="29" Margin="151,117,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="484"/>
-        <Button x:Name="Button1" Content="Button" HorizontalAlignment="Left" Height="22" Margin="151,217,0,0" VerticalAlignment="Top" Width="300" Click="Button1_Click"/>
-
+        <TabControl HorizontalAlignment="Center" Height="434" VerticalAlignment="Center" Width="800">
+            <TabItem Header="Character Info">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="121*"/>
+                        <ColumnDefinition Width="673*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
+            <TabItem Header="PacketPaser">
+                <Grid Background="#FFE5E5E5">
+                    <ListBox x:Name="List1"  HorizontalAlignment="Center" Height="358" VerticalAlignment="Top" Width="794" ItemsSource="{Binding DataLists2}" DisplayMemberPath="RawPacketInText" Margin="0,38,0,0"/>
+                    <TextBox x:Name="OpCodeTextBox" HorizontalAlignment="Left" Height="27" Margin="68,6,0,0" FontSize="18" TextChanged="OpCodeTextBox_TextChanged"  TextWrapping="Wrap"  VerticalAlignment="Top" Width="134"/>
+                    <Label Content="RegEx:" FontSize="15" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Height="32" Width="53"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
